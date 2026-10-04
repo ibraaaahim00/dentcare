@@ -17,8 +17,14 @@ class Doctor extends Model
     protected $fillable = [
         'user_id',
         'specialization',
+        'specialization_ar',
+        'specialization_en',
         'bio',
+        'bio_ar',
+        'bio_en',
         'qualifications',
+        'qualifications_ar',
+        'qualifications_en',
         'experience_years',
         'consultation_fee',
         'image',
@@ -61,6 +67,11 @@ class Doctor extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(DoctorSchedule::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
@@ -69,6 +80,45 @@ class Doctor extends Model
     public function getNameAttribute(): ?string
     {
         return $this->user?->name;
+    }
+
+    public function getSpecializationAttribute(?string $value): string
+    {
+        if (app()->getLocale() === 'ar' && ! empty($this->attributes['specialization_ar'])) {
+            return $this->attributes['specialization_ar'];
+        }
+
+        if (app()->getLocale() === 'en' && ! empty($this->attributes['specialization_en'])) {
+            return $this->attributes['specialization_en'];
+        }
+
+        return $value ?? '';
+    }
+
+    public function getBioAttribute(?string $value): ?string
+    {
+        if (app()->getLocale() === 'ar' && ! empty($this->attributes['bio_ar'])) {
+            return $this->attributes['bio_ar'];
+        }
+
+        if (app()->getLocale() === 'en' && ! empty($this->attributes['bio_en'])) {
+            return $this->attributes['bio_en'];
+        }
+
+        return $value;
+    }
+
+    public function getQualificationsAttribute(?string $value): ?string
+    {
+        if (app()->getLocale() === 'ar' && ! empty($this->attributes['qualifications_ar'])) {
+            return $this->attributes['qualifications_ar'];
+        }
+
+        if (app()->getLocale() === 'en' && ! empty($this->attributes['qualifications_en'])) {
+            return $this->attributes['qualifications_en'];
+        }
+
+        return $value;
     }
 
     public function getImageUrlAttribute(): string

@@ -79,7 +79,9 @@ class BlogPostController extends Controller
             $validated['image'] = $this->fileUploadService->replace($blog->image, $request->file('image'), 'blog');
         }
 
-        if (! empty($validated['is_published']) && empty($blog->published_at)) {
+        $validated['is_published'] = $request->boolean('is_published');
+
+        if ($validated['is_published'] && empty($blog->published_at)) {
             $validated['published_at'] = Carbon::now();
         }
 

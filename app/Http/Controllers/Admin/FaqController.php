@@ -3,60 +3,57 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Faq\StoreFaqRequest;
+use App\Http\Requests\Faq\UpdateFaqRequest;
 use App\Models\Faq;
+use App\Repositories\Contracts\FaqRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class FaqController extends Controller
 {
+    public function __construct(
+        protected FaqRepositoryInterface $faqRepository
+    ) {}
+
     public function index(): View
     {
-        $faqs = Faq::orderBy('sort_order')->paginate(12);
+        $faqs = $this->faqRepository->paginate(12);
 
         return view('admin.faqs.index', compact('faqs'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreFaqRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'question_ar' => ['required', 'string', 'max:255'],
-            'question_en' => ['required', 'string', 'max:255'],
-            'answer_ar' => ['required', 'string'],
-            'answer_en' => ['required', 'string'],
-            'sort_order' => ['nullable', 'integer'],
-            'is_active' => ['nullable', 'boolean'],
-        ]);
+        $data = $request->validated();
+        $data['is_active'] = $request->boolean('is_active', true);
 
-        $validated['is_active'] = $request->boolean('is_active', true);
-
-        Faq::create($validated);
+        $this->faqRepository->create($data);
 
         return redirect()->route('admin.faqs.index')->with('success', 'FAQ added successfully.');
     }
 
-    public function update(Request $request, Faq $faq): RedirectResponse
+    public function update(UpdateFaqRequest $request, Faq $faq): RedirectResponse
     {
-        $validated = $request->validate([
-            'question_ar' => ['required', 'string', 'max:255'],
-            'question_en' => ['required', 'string', 'max:255'],
-            'answer_ar' => ['required', 'string'],
-            'answer_en' => ['required', 'string'],
-            'sort_order' => ['nullable', 'integer'],
-            'is_active' => ['nullable', 'boolean'],
-        ]);
+        $data = $request->validated();
+        $data['is_active'] = $request->boolean('is_active', true);
 
-        $validated['is_active'] = $request->boolean('is_active', true);
-
-        $faq->update($validated);
+        $this->faqRepository->update($faq->id, $data);
 
         return redirect()->route('admin.faqs.index')->with('success', 'FAQ updated successfully.');
     }
 
     public function destroy(Faq $faq): RedirectResponse
     {
-        $faq->delete();
+        $this->faqRepository->delete($faq->id);
 
         return redirect()->route('admin.faqs.index')->with('success', 'FAQ deleted successfully.');
+    }
+
+    public function toggle(Faq $faq): RedirectResponse
+    {
+        $this->faqRepository->toggleActive($faq->id);
+
+        return back()->with('success', 'FAQ status updated successfully.');
     }
 }

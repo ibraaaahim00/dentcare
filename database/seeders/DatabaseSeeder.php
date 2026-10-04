@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             WorkingHourSeeder::class,
             AppointmentSettingSeeder::class,
             UserSeeder::class,
+            DoctorScheduleSeeder::class,
             ServiceSeeder::class,
             CategorySeeder::class,
             BlogPostSeeder::class,
@@ -22,6 +23,12 @@ class DatabaseSeeder extends Seeder
             MedicalRecordSeeder::class,
             ReviewSeeder::class,
             ContactMessageSeeder::class,
+            HeroBannerSeeder::class,
+            AboutSectionSeeder::class,
+            StatisticSeeder::class,
+            FeatureSeeder::class,
+            HowItWorkSeeder::class,
+            CtaSectionSeeder::class,
         ]);
     }
 }

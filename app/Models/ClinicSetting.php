@@ -28,6 +28,7 @@ class ClinicSetting extends Model
     public static function set(string $key, mixed $value, string $type = 'text'): self
     {
         Cache::forget("clinic_setting_{$key}");
+        Cache::forget('all_clinic_settings_map');
 
         return self::updateOrCreate(
             ['key' => $key],

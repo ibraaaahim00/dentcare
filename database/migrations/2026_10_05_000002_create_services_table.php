@@ -15,6 +15,10 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description_ar');
             $table->text('description_en');
+            $table->text('short_description_ar')->nullable();
+            $table->text('short_description_en')->nullable();
+            $table->string('seo_title')->nullable();
+            $table->text('seo_description')->nullable();
             $table->unsignedInteger('duration')->default(30); // in minutes
             $table->decimal('price', 8, 2)->default(0.00);
             $table->string('image')->nullable();

@@ -33,6 +33,26 @@ class SettingController extends Controller
         ClinicSetting::set('emergency_phone', $validated['emergency_phone'] ?? '');
         ClinicSetting::set('address_ar', $validated['address_ar']);
         ClinicSetting::set('address_en', $validated['address_en']);
+        ClinicSetting::set('whatsapp', $validated['whatsapp'] ?? '');
+        ClinicSetting::set('facebook_url', $validated['facebook_url'] ?? '');
+        ClinicSetting::set('twitter_url', $validated['twitter_url'] ?? '');
+        ClinicSetting::set('instagram_url', $validated['instagram_url'] ?? '');
+        ClinicSetting::set('youtube_url', $validated['youtube_url'] ?? '');
+        ClinicSetting::set('linkedin_url', $validated['linkedin_url'] ?? '');
+        ClinicSetting::set('google_map_embed', $validated['google_map_embed'] ?? '');
+        ClinicSetting::set('google_map_link', $validated['google_map_link'] ?? '');
+        ClinicSetting::set('header_topbar_announcement_ar', $validated['header_topbar_announcement_ar'] ?? '');
+        ClinicSetting::set('header_topbar_announcement_en', $validated['header_topbar_announcement_en'] ?? '');
+        ClinicSetting::set('footer_text_ar', $validated['footer_text_ar'] ?? '');
+        ClinicSetting::set('footer_text_en', $validated['footer_text_en'] ?? '');
+        ClinicSetting::set('copyright_text_ar', $validated['copyright_text_ar'] ?? '');
+        ClinicSetting::set('copyright_text_en', $validated['copyright_text_en'] ?? '');
+        ClinicSetting::set('meta_title_ar', $validated['meta_title_ar'] ?? '');
+        ClinicSetting::set('meta_title_en', $validated['meta_title_en'] ?? '');
+        ClinicSetting::set('meta_description_ar', $validated['meta_description_ar'] ?? '');
+        ClinicSetting::set('meta_description_en', $validated['meta_description_en'] ?? '');
+        ClinicSetting::set('meta_keywords_ar', $validated['meta_keywords_ar'] ?? '');
+        ClinicSetting::set('meta_keywords_en', $validated['meta_keywords_en'] ?? '');
 
         $appointmentSettings = AppointmentSetting::current();
         $appointmentSettings->update([

@@ -27,7 +27,7 @@
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-slate-400 uppercase">{{ __('app.address') }}</span>
-                            <span class="font-semibold text-navy-900">{{ app()->getLocale() === 'ar' ? 'طريق الملك فهد، الرياض، المملكة العربية السعودية' : 'King Fahd Road, Riyadh, Saudi Arabia' }}</span>
+                            <span class="font-semibold text-navy-900">{{ clinic_setting(app()->getLocale() === 'ar' ? 'address_ar' : 'address_en', 'Riyadh, Saudi Arabia') }}</span>
                         </div>
                     </div>
 
@@ -37,7 +37,8 @@
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-slate-400 uppercase">{{ __('app.phone') }}</span>
-                            <span class="font-semibold text-navy-900" dir="ltr">+966 12 345 6789</span>
+                            @php $phone = clinic_setting('phone', '+966 11 234 5678'); @endphp
+                            <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="font-semibold text-navy-900 hover:text-medical-600 transition" dir="ltr">{{ $phone }}</a>
                         </div>
                     </div>
 
@@ -47,7 +48,8 @@
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-slate-400 uppercase">{{ __('app.email') }}</span>
-                            <span class="font-semibold text-navy-900">contact@dentcare-clinic.com</span>
+                            @php $email = clinic_setting('email', 'info@dentcare.com'); @endphp
+                            <a href="mailto:{{ $email }}" class="font-semibold text-navy-900 hover:text-medical-600 transition">{{ $email }}</a>
                         </div>
                     </div>
                 </div>

@@ -53,7 +53,7 @@ class ReviewService
         }
 
         $data['patient_id'] = $patient->id;
-        $data['status'] = ReviewStatus::Approved; // or pending based on clinic policy
+        $data['status'] = ReviewStatus::Pending;
 
         /** @var Review */
         return $this->reviewRepository->create($data);

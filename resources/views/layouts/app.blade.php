@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', config('app.name', 'DentCare')) — {{ __('app.clinic_name') }}</title>
-    <meta name="description" content="@yield('meta_description', __('app.tagline'))">
+    <title>@yield('title', clinic_setting(app()->getLocale() === 'ar' ? 'meta_title_ar' : 'meta_title_en', config('app.name', 'DentCare')))</title>
+    <meta name="description" content="@yield('meta_description', clinic_setting(app()->getLocale() === 'ar' ? 'meta_description_ar' : 'meta_description_en', 'DentCare Dental Clinic'))">
+    <meta name="keywords" content="@yield('meta_keywords', clinic_setting(app()->getLocale() === 'ar' ? 'meta_keywords_ar' : 'meta_keywords_en', 'dentist, dental clinic'))">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,16 +64,31 @@
     <div class="bg-navy-900 text-slate-300 text-xs py-2 px-4 border-b border-navy-800">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
             <div class="flex items-center gap-4">
-                <span class="flex items-center gap-1.5">
+                @php
+                    $phone = clinic_setting('phone', '+966 11 234 5678');
+                    $topAnnouncement = clinic_setting(app()->getLocale() === 'ar' ? 'header_topbar_announcement_ar' : 'header_topbar_announcement_en');
+                @endphp
+                <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="flex items-center gap-1.5 hover:text-white transition">
                     <svg class="w-3.5 h-3.5 text-medical-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                    <span dir="ltr">+966 12 345 6789</span>
-                </span>
-                <span class="hidden sm:flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5 text-medical-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span>{{ app()->getLocale() === 'ar' ? 'السبت - الخميس: 9:00 ص - 9:00 م' : 'Sat - Thu: 9:00 AM - 9:00 PM' }}</span>
-                </span>
+                    <span dir="ltr">{{ $phone }}</span>
+                </a>
+                @if($topAnnouncement)
+                    <span class="hidden md:flex items-center gap-1.5 text-medical-300 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>{{ $topAnnouncement }}</span>
+                    </span>
+                @endif
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
+                @php
+                    $wa = clinic_setting('whatsapp');
+                @endphp
+                @if($wa)
+                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $wa) }}" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1 transition">
+                        <span>WhatsApp</span>
+                    </a>
+                    <span class="text-slate-600">|</span>
+                @endif
                 <!-- Language Switcher -->
                 @if(app()->getLocale() === 'ar')
                     <a href="{{ route('locale.switch', 'en') }}" class="hover:text-white font-medium flex items-center gap-1 transition">
@@ -104,7 +120,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="text-2xl font-extrabold text-navy-900 tracking-tight block">Dent<span class="text-medical-600">Care</span></span>
+                        <span class="text-2xl font-extrabold text-navy-900 tracking-tight block">{{ clinic_setting(app()->getLocale() === 'ar' ? 'clinic_name_ar' : 'clinic_name_en', config('app.name', 'DentCare')) }}</span>
                         <span class="text-[11px] text-slate-400 block -mt-1 font-medium">{{ app()->getLocale() === 'ar' ? 'عيادة طب وتجميل الأسنان' : 'Dental & Aesthetic Clinic' }}</span>
                     </div>
                 </a>
@@ -264,11 +280,29 @@
                                 <path d="M18.8 4c-1.7-1.4-4-1.2-5.7.4-.6.6-1.6.6-2.2 0C9.2 2.8 6.9 2.6 5.2 4 2.8 6 2.2 9.5 3.3 12.3c.9 2.2 2.1 4.3 3.3 6.3 1.2 2.1 2.3 3.4 3.4 3.4.4 0 .9-.3 1.3-.9.9-1.3 1.4-2.8 1.7-4.4.1-.4.5-.7.9-.7s.8.3.9.7c.3 1.6.8 3.1 1.7 4.4.4.6.9.9 1.3.9 1.1 0 2.2-1.3 3.4-3.4 1.2-2 2.4-4.1 3.3-6.3 1.1-2.8.5-6.3-1.7-8.3z"/>
                             </svg>
                         </div>
-                        <span class="text-2xl font-extrabold text-white tracking-tight">Dent<span class="text-medical-400">Care</span></span>
+                        <span class="text-2xl font-extrabold text-white tracking-tight">{{ clinic_setting(app()->getLocale() === 'ar' ? 'clinic_name_ar' : 'clinic_name_en', config('app.name', 'DentCare')) }}</span>
                     </div>
                     <p class="text-slate-400 text-sm leading-relaxed">
-                        {{ app()->getLocale() === 'ar' ? 'عيادة أسنان متكاملة تقدم أحدث تقنيات طب وتجميل وزراعة الأسنان، لضمان صحة وجمال ابتسامتك في بيئة آمنة ومريحة.' : 'A premier dental clinic offering state-of-the-art restorative, aesthetic, and implant dentistry for your healthiest, brightest smile.' }}
+                        {{ clinic_setting(app()->getLocale() === 'ar' ? 'footer_text_ar' : 'footer_text_en', app()->getLocale() === 'ar' ? 'عيادة أسنان متكاملة تقدم أحدث تقنيات طب وتجميل وزراعة الأسنان، لضمان صحة وجمال ابتسامتك في بيئة آمنة ومريحة.' : 'A premier dental clinic offering state-of-the-art restorative, aesthetic, and implant dentistry for your healthiest, brightest smile.') }}
                     </p>
+                    <!-- Social Links -->
+                    <div class="flex items-center gap-3 pt-2">
+                        @if($fb = clinic_setting('facebook_url'))
+                            <a href="{{ $fb }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-navy-900 hover:bg-medical-600 text-slate-300 hover:text-white flex items-center justify-center text-xs font-bold transition">FB</a>
+                        @endif
+                        @if($tw = clinic_setting('twitter_url'))
+                            <a href="{{ $tw }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-navy-900 hover:bg-medical-600 text-slate-300 hover:text-white flex items-center justify-center text-xs font-bold transition">X</a>
+                        @endif
+                        @if($ig = clinic_setting('instagram_url'))
+                            <a href="{{ $ig }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-navy-900 hover:bg-medical-600 text-slate-300 hover:text-white flex items-center justify-center text-xs font-bold transition">IG</a>
+                        @endif
+                        @if($yt = clinic_setting('youtube_url'))
+                            <a href="{{ $yt }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-navy-900 hover:bg-medical-600 text-slate-300 hover:text-white flex items-center justify-center text-xs font-bold transition">YT</a>
+                        @endif
+                        @if($li = clinic_setting('linkedin_url'))
+                            <a href="{{ $li }}" target="_blank" rel="noopener" class="w-8 h-8 rounded-lg bg-navy-900 hover:bg-medical-600 text-slate-300 hover:text-white flex items-center justify-center text-xs font-bold transition">IN</a>
+                        @endif
+                    </div>
                 </div>
 
                 <!-- Quick Links -->
@@ -305,22 +339,22 @@
                     <ul class="space-y-3 text-sm text-slate-400">
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-medical-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            <span>{{ app()->getLocale() === 'ar' ? 'طريق الملك فهد، الرياض، المملكة العربية السعودية' : 'King Fahd Road, Riyadh, Saudi Arabia' }}</span>
+                            <span>{{ clinic_setting(app()->getLocale() === 'ar' ? 'address_ar' : 'address_en', app()->getLocale() === 'ar' ? 'الرياض، طريق الملك فهد' : 'King Fahd Road, Riyadh') }}</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <svg class="w-5 h-5 text-medical-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            <span dir="ltr">+966 12 345 6789</span>
+                            <a href="tel:{{ preg_replace('/\s+/', '', clinic_setting('phone', '+966 11 234 5678')) }}" dir="ltr" class="hover:text-white transition">{{ clinic_setting('phone', '+966 11 234 5678') }}</a>
                         </li>
                         <li class="flex items-center gap-3">
                             <svg class="w-5 h-5 text-medical-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            <span>info@dentcare-clinic.com</span>
+                            <a href="mailto:{{ clinic_setting('email', 'info@dentcare.com') }}" class="hover:text-white transition">{{ clinic_setting('email', 'info@dentcare.com') }}</a>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <div class="pt-8 border-t border-navy-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-                <p>&copy; {{ date('Y') }} DentCare Clinic. {{ __('app.all_rights_reserved') }}</p>
+                <p>{{ clinic_setting(app()->getLocale() === 'ar' ? 'copyright_text_ar' : 'copyright_text_en', '© ' . date('Y') . ' DentCare Clinic. ' . __('app.all_rights_reserved')) }}</p>
                 <div class="flex items-center gap-4">
                     <a href="{{ route('privacy') }}" class="hover:text-slate-400 transition">{{ app()->getLocale() === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy' }}</a>
                     <span>•</span>

@@ -103,11 +103,139 @@
                         <span class="text-[10px] text-slate-400 mt-1 block">{{ app()->getLocale() === 'ar' ? 'فترة السماح بإلغاء الحجز الذاتي' : 'Patient self-cancellation cutoff' }}</span>
                     </div>
                 </div>
+            <!-- Social Media & Location -->
+            <div>
+                <h2 class="text-sm font-bold text-navy-900 uppercase tracking-wider pb-3 border-b border-slate-100 mb-5 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-medical-50 text-medical-600 flex items-center justify-center text-xs">3</span>
+                    <span>{{ app()->getLocale() === 'ar' ? 'وسائل التواصل والخريطة' : 'Social Media & Location' }}</span>
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رقم الواتساب' : 'WhatsApp Number' }}</label>
+                        <input type="text" name="whatsapp" value="{{ old('whatsapp', $settings['whatsapp'] ?? '+966501234567') }}" placeholder="+966501234567" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رابط فيسبوك' : 'Facebook URL' }}</label>
+                        <input type="text" name="facebook_url" value="{{ old('facebook_url', $settings['facebook_url'] ?? 'https://facebook.com') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رابط تويتر (X)' : 'Twitter (X) URL' }}</label>
+                        <input type="text" name="twitter_url" value="{{ old('twitter_url', $settings['twitter_url'] ?? 'https://x.com') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رابط انستقرام' : 'Instagram URL' }}</label>
+                        <input type="text" name="instagram_url" value="{{ old('instagram_url', $settings['instagram_url'] ?? 'https://instagram.com') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رابط يوتيوب' : 'YouTube URL' }}</label>
+                        <input type="text" name="youtube_url" value="{{ old('youtube_url', $settings['youtube_url'] ?? '') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رابط لينكد إن' : 'LinkedIn URL' }}</label>
+                        <input type="text" name="linkedin_url" value="{{ old('linkedin_url', $settings['linkedin_url'] ?? '') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div class="md:col-span-2 lg:col-span-3">
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رابط خرائط جوجل المباشر' : 'Google Maps Link' }}</label>
+                        <input type="text" name="google_map_link" value="{{ old('google_map_link', $settings['google_map_link'] ?? 'https://maps.google.com') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div class="md:col-span-2 lg:col-span-3">
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'كود تضمين الخريطة (Google Map Embed iframe or src)' : 'Google Maps Embed iframe / src' }}</label>
+                        <textarea name="google_map_embed" rows="2" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">{{ old('google_map_embed', $settings['google_map_embed'] ?? '') }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Announcement & Footer Texts -->
+            <div>
+                <h2 class="text-sm font-bold text-navy-900 uppercase tracking-wider pb-3 border-b border-slate-100 mb-5 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-medical-50 text-medical-600 flex items-center justify-center text-xs">4</span>
+                    <span>{{ app()->getLocale() === 'ar' ? 'الشريط العلوي، التذييل، وحقوق النشر' : 'Topbar, Footer, and Copyright' }}</span>
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'إعلان الشريط العلوي (عربي)' : 'Topbar Announcement (AR)' }}</label>
+                        <input type="text" name="header_topbar_announcement_ar" value="{{ old('header_topbar_announcement_ar', $settings['header_topbar_announcement_ar'] ?? 'خصم 20% على باقات تبييض وتجميل الأسنان هذا الشهر!') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'إعلان الشريط العلوي (إنجليزي)' : 'Topbar Announcement (EN)' }}</label>
+                        <input type="text" name="header_topbar_announcement_en" value="{{ old('header_topbar_announcement_en', $settings['header_topbar_announcement_en'] ?? '20% off on all cosmetic dentistry and teeth whitening packages this month!') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'نص التذييل التعريفي (عربي)' : 'Footer About Paragraph (AR)' }}</label>
+                        <textarea name="footer_text_ar" rows="3" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">{{ old('footer_text_ar', $settings['footer_text_ar'] ?? 'عيادة أسنان متكاملة تقدم أحدث حلول طب وجراحة وتجميل الأسنان بأحدث التقنيات وأعلى معايير التعقيم.') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'نص التذييل التعريفي (إنجليزي)' : 'Footer About Paragraph (EN)' }}</label>
+                        <textarea name="footer_text_en" rows="3" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">{{ old('footer_text_en', $settings['footer_text_en'] ?? 'A comprehensive dental clinic providing cutting-edge oral healthcare, cosmetic dentistry, and dental surgery with maximum sterilization standards.') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'نص حقوق النشر (عربي)' : 'Copyright Text (AR)' }}</label>
+                        <input type="text" name="copyright_text_ar" value="{{ old('copyright_text_ar', $settings['copyright_text_ar'] ?? 'جميع الحقوق محفوظة © DentCare مركز طب الأسنان') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'نص حقوق النشر (إنجليزي)' : 'Copyright Text (EN)' }}</label>
+                        <input type="text" name="copyright_text_en" value="{{ old('copyright_text_en', $settings['copyright_text_en'] ?? 'All rights reserved © DentCare Dental Clinic') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO Meta Tags -->
+            <div>
+                <h2 class="text-sm font-bold text-navy-900 uppercase tracking-wider pb-3 border-b border-slate-100 mb-5 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-medical-50 text-medical-600 flex items-center justify-center text-xs">5</span>
+                    <span>{{ app()->getLocale() === 'ar' ? 'تهيئة محركات البحث (SEO)' : 'Search Engine Optimization (SEO)' }}</span>
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'عنوان الموقع لمحركات البحث (عربي)' : 'Meta Title (AR)' }}</label>
+                        <input type="text" name="meta_title_ar" value="{{ old('meta_title_ar', $settings['meta_title_ar'] ?? 'DentCare — أفضل عيادة أسنان وحجز مواعيد فوري') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'عنوان الموقع لمحركات البحث (إنجليزي)' : 'Meta Title (EN)' }}</label>
+                        <input type="text" name="meta_title_en" value="{{ old('meta_title_en', $settings['meta_title_en'] ?? 'DentCare — Premier Dental Care & Online Booking') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'وصف الموقع لمحركات البحث (عربي)' : 'Meta Description (AR)' }}</label>
+                        <textarea name="meta_description_ar" rows="2" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">{{ old('meta_description_ar', $settings['meta_description_ar'] ?? 'احجز موعدك الآن مع نخبة من أطباء واستشاريي الأسنان في DentCare.') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'وصف الموقع لمحركات البحث (إنجليزي)' : 'Meta Description (EN)' }}</label>
+                        <textarea name="meta_description_en" rows="2" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">{{ old('meta_description_en', $settings['meta_description_en'] ?? 'Book your online dental appointment with top specialized dentists at DentCare.') }}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'الكلمات المفتاحية (عربي)' : 'Keywords (AR)' }}</label>
+                        <input type="text" name="meta_keywords_ar" value="{{ old('meta_keywords_ar', $settings['meta_keywords_ar'] ?? 'طب أسنان, تبييض أسنان, زراعة أسنان, تقويم أسنان') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'الكلمات المفتاحية (إنجليزي)' : 'Keywords (EN)' }}</label>
+                        <input type="text" name="meta_keywords_en" value="{{ old('meta_keywords_en', $settings['meta_keywords_en'] ?? 'dentist, dental clinic, dental implants, teeth whitening, orthodontics') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+                </div>
             </div>
 
             <div class="pt-4 border-t border-slate-100 flex items-center justify-end">
                 <button type="submit" class="px-6 py-2.5 rounded-xl bg-medical-600 hover:bg-medical-700 text-white font-bold text-sm shadow-md shadow-medical-600/20 transition">
-                    {{ app()->getLocale() === 'ar' ? 'حفظ إعدادات العيادة والمحرك' : 'Save Settings' }}
+                    {{ app()->getLocale() === 'ar' ? 'حفظ كافة إعدادات العيادة' : 'Save All Settings' }}
                 </button>
             </div>
         </form>

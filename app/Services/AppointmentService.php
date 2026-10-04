@@ -52,6 +52,13 @@ class AppointmentService
             return [];
         }
 
+        // Check doctor specific schedule
+        $doctor = Doctor::with('schedules')->find($doctorId);
+        $doctorSchedule = $doctor?->schedules->firstWhere('day_of_week', $dayOfWeek);
+        if ($doctorSchedule && $doctorSchedule->is_day_off) {
+            return [];
+        }
+
         // 4. Determine service duration
         $duration = 30; // default minutes
         if ($serviceId) {
@@ -70,6 +77,18 @@ class AppointmentService
         $slots = [];
         $startTime = Carbon::parse($appointmentDate->toDateString().' '.$workingHour->start_time);
         $clinicEndTime = Carbon::parse($appointmentDate->toDateString().' '.$workingHour->end_time);
+
+        if ($doctorSchedule && $doctorSchedule->start_time && $doctorSchedule->end_time) {
+            $docStartTime = Carbon::parse($appointmentDate->toDateString().' '.$doctorSchedule->start_time);
+            $docEndTime = Carbon::parse($appointmentDate->toDateString().' '.$doctorSchedule->end_time);
+            if ($docStartTime->gt($startTime)) {
+                $startTime = $docStartTime;
+            }
+            if ($docEndTime->lt($clinicEndTime)) {
+                $clinicEndTime = $docEndTime;
+            }
+        }
+
         $minimumNoticeTime = Carbon::now()->addHours($settings->minimum_notice_hours);
 
         $currentSlotStart = $startTime->copy();
@@ -97,6 +116,16 @@ class AppointmentService
                         $isAvailable = false;
                         $reason = 'Slot already booked';
                         break;
+                    }
+                }
+
+                // Check doctor break time
+                if ($isAvailable && $doctorSchedule && $doctorSchedule->break_start && $doctorSchedule->break_end) {
+                    $breakStart = Carbon::parse($appointmentDate->toDateString().' '.$doctorSchedule->break_start)->format('H:i:s');
+                    $breakEnd = Carbon::parse($appointmentDate->toDateString().' '.$doctorSchedule->break_end)->format('H:i:s');
+                    if ($slotStartStr < $breakEnd && $slotEndStr > $breakStart) {
+                        $isAvailable = false;
+                        $reason = 'Doctor on break';
                     }
                 }
             }
@@ -152,7 +181,15 @@ class AppointmentService
         }
 
         // Validate doctor exists and is active
-        $doctor = Doctor::active()->findOrFail($data['doctor_id']);
+        $doctor = Doctor::with('schedules')->active()->findOrFail($data['doctor_id']);
+
+        // Check doctor schedule and days off
+        $doctorSchedule = $doctor->schedules->firstWhere('day_of_week', $dayOfWeek);
+        if ($doctorSchedule && $doctorSchedule->is_day_off) {
+            throw ValidationException::withMessages([
+                'appointment_date' => [__('appointments.errors.doctor_day_off') ?: 'Doctor is off on this day.'],
+            ]);
+        }
 
         // Validate service exists and is active
         $service = Service::active()->findOrFail($data['service_id']);
@@ -172,6 +209,28 @@ class AppointmentService
             throw ValidationException::withMessages([
                 'start_time' => [__('appointments.errors.outside_hours')],
             ]);
+        }
+
+        // Check doctor schedule custom working hours
+        if ($doctorSchedule && $doctorSchedule->start_time && $doctorSchedule->end_time) {
+            $docStartTime = Carbon::parse($date->toDateString().' '.$doctorSchedule->start_time);
+            $docEndTime = Carbon::parse($date->toDateString().' '.$doctorSchedule->end_time);
+            if ($slotStartDateTime->lt($docStartTime) || $slotEndDateTime->gt($docEndTime)) {
+                throw ValidationException::withMessages([
+                    'start_time' => [__('appointments.errors.outside_hours')],
+                ]);
+            }
+        }
+
+        // Check doctor schedule break time
+        if ($doctorSchedule && $doctorSchedule->break_start && $doctorSchedule->break_end) {
+            $breakStart = Carbon::parse($date->toDateString().' '.$doctorSchedule->break_start)->format('H:i:s');
+            $breakEnd = Carbon::parse($date->toDateString().' '.$doctorSchedule->break_end)->format('H:i:s');
+            if ($startFormatted < $breakEnd && $endFormatted > $breakStart) {
+                throw ValidationException::withMessages([
+                    'start_time' => [__('appointments.errors.doctor_on_break') ?: 'Doctor is on scheduled break at this time.'],
+                ]);
+            }
         }
 
         // Check minimum notice hours

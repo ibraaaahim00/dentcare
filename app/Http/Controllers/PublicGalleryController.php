@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GalleryItem;
+use App\Repositories\Contracts\GalleryItemRepositoryInterface;
 use Illuminate\View\View;
 
 class PublicGalleryController extends Controller
 {
+    public function __construct(
+        protected GalleryItemRepositoryInterface $galleryItemRepo
+    ) {}
+
     public function __invoke(): View
     {
-        $galleryItems = GalleryItem::active()->get();
+        $galleryItems = $this->galleryItemRepo->getActive();
 
         return view('pages.gallery', compact('galleryItems'));
     }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Admin Dashboard') — DentCare Control Panel</title>
+    <title>@yield('title', 'Admin Dashboard') — {{ clinic_setting(app()->getLocale() === 'ar' ? 'clinic_name_ar' : 'clinic_name_en', config('app.name', 'DentCare')) }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,7 +73,7 @@
                 </svg>
             </div>
             <div>
-                <span class="text-xl font-extrabold text-white tracking-tight">Dent<span class="text-medical-400">Care</span></span>
+                <span class="text-xl font-extrabold text-white tracking-tight">{{ clinic_setting(app()->getLocale() === 'ar' ? 'clinic_name_ar' : 'clinic_name_en', config('app.name', 'DentCare')) }}</span>
                 <span class="text-[10px] text-slate-400 font-bold block uppercase tracking-wider">{{ app()->getLocale() === 'ar' ? 'لوحة تحكم الإدارة' : 'Admin Console' }}</span>
             </div>
         </div>
@@ -117,25 +117,57 @@
                 <span>{{ app()->getLocale() === 'ar' ? 'التقييمات والمراجعات' : 'Reviews' }}</span>
             </a>
 
-            <div class="pt-4 pb-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider px-3">{{ app()->getLocale() === 'ar' ? 'المحتوى والإعدادات' : 'Content & System' }}</div>
+            <div class="pt-4 pb-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider px-3">{{ app()->getLocale() === 'ar' ? 'محتوى الموقع (CMS)' : 'Website CMS' }}</div>
 
-            <a href="{{ route('admin.blog.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition {{ request()->routeIs('admin.blog.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+            <a href="{{ route('admin.hero-banners.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.hero-banners.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+                <span>{{ app()->getLocale() === 'ar' ? 'بانرات الواجهة (Hero)' : 'Hero Banners' }}</span>
+            </a>
+
+            <a href="{{ route('admin.about-section.edit') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.about-section.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>{{ app()->getLocale() === 'ar' ? 'قسم من نحن (About)' : 'About Section' }}</span>
+            </a>
+
+            <a href="{{ route('admin.statistics.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.statistics.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <span>{{ app()->getLocale() === 'ar' ? 'إحصائيات العيادة' : 'Statistics' }}</span>
+            </a>
+
+            <a href="{{ route('admin.features.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.features.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span>{{ app()->getLocale() === 'ar' ? 'لماذا تختارنا' : 'Why Choose Us' }}</span>
+            </a>
+
+            <a href="{{ route('admin.how-it-works.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.how-it-works.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <span>{{ app()->getLocale() === 'ar' ? 'كيف يعمل الحجز' : 'How It Works' }}</span>
+            </a>
+
+            <a href="{{ route('admin.cta-section.edit') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.cta-section.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+                <span>{{ app()->getLocale() === 'ar' ? 'قسم الحث (CTA)' : 'CTA Section' }}</span>
+            </a>
+
+            <div class="pt-4 pb-1 text-[11px] font-bold text-slate-500 uppercase tracking-wider px-3">{{ app()->getLocale() === 'ar' ? 'المدونة والمعرض' : 'Media & Content' }}</div>
+
+            <a href="{{ route('admin.blog.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.blog.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                 <span>{{ app()->getLocale() === 'ar' ? 'المقالات والأخبار' : 'Articles & Blog' }}</span>
             </a>
 
-            <a href="{{ route('admin.categories.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition {{ request()->routeIs('admin.categories.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+            <a href="{{ route('admin.categories.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.categories.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                 <span>{{ app()->getLocale() === 'ar' ? 'تصنيفات المقالات' : 'Categories' }}</span>
             </a>
 
-            <a href="{{ route('admin.gallery.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition {{ request()->routeIs('admin.gallery.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span>{{ app()->getLocale() === 'ar' ? 'معرض الصور' : 'Gallery' }}</span>
+            <a href="{{ route('admin.gallery.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.gallery.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>{{ app()->getLocale() === 'ar' ? 'معرض الحالات والصور' : 'Gallery' }}</span>
             </a>
 
-            <a href="{{ route('admin.faqs.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition {{ request()->routeIs('admin.faqs.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <a href="{{ route('admin.faqs.index') }}" class="flex items-center gap-3 px-3.5 py-2 rounded-xl transition {{ request()->routeIs('admin.faqs.*') ? 'bg-medical-600 text-white font-bold shadow-md shadow-medical-600/30' : 'text-slate-300 hover:bg-navy-900 hover:text-white' }}">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <span>{{ app()->getLocale() === 'ar' ? 'الأسئلة الشائعة' : 'FAQs' }}</span>
             </a>
 

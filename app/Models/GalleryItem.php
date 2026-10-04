@@ -14,7 +14,10 @@ class GalleryItem extends Model
     protected $fillable = [
         'title_ar',
         'title_en',
+        'category',
         'image',
+        'before_image',
+        'after_image',
         'sort_order',
         'is_active',
     ];
@@ -44,5 +47,23 @@ class GalleryItem extends Model
         }
 
         return 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=600&auto=format&fit=crop&q=80';
+    }
+
+    public function getBeforeImageUrlAttribute(): ?string
+    {
+        if ($this->before_image && Storage::disk('public')->exists($this->before_image)) {
+            return Storage::disk('public')->url($this->before_image);
+        }
+
+        return null;
+    }
+
+    public function getAfterImageUrlAttribute(): ?string
+    {
+        if ($this->after_image && Storage::disk('public')->exists($this->after_image)) {
+            return Storage::disk('public')->url($this->after_image);
+        }
+
+        return null;
     }
 }

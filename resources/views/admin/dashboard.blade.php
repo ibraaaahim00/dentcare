@@ -16,7 +16,7 @@
                 {{ app()->getLocale() === 'ar' ? 'مرحباً بك، دكتور' : 'Welcome back,' }} {{ auth()->user()->name }} 👋
             </h1>
             <p class="text-sm text-medical-100 max-w-xl">
-                {{ app()->getLocale() === 'ar' ? 'إليك نظرة عامة على أداء عيادة DentCare والمواعيد المجدولة لليوم والمرضى الجدد.' : 'Here is an overview of DentCare clinic performance, today\'s appointments, and patients.' }}
+                {{ app()->getLocale() === 'ar' ? 'إليك نظرة عامة على أداء عيادة ' . clinic_setting('clinic_name_ar', config('app.name', 'DentCare')) . ' والمواعيد المجدولة لليوم والمرضى الجدد.' : 'Here is an overview of ' . clinic_setting('clinic_name_en', config('app.name', 'DentCare')) . ' clinic performance, today\'s appointments, and patients.' }}
             </p>
         </div>
         <div class="flex flex-wrap items-center gap-3 relative z-10">

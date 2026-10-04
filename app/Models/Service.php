@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Service extends Model
 {
@@ -17,11 +18,15 @@ class Service extends Model
         'name_ar',
         'name_en',
         'slug',
+        'short_description_ar',
+        'short_description_en',
         'description_ar',
         'description_en',
         'duration',
         'price',
         'image',
+        'seo_title',
+        'seo_description',
         'is_active',
         'sort_order',
     ];
@@ -59,6 +64,16 @@ class Service extends Model
     public function getDescriptionAttribute(): string
     {
         return app()->getLocale() === 'ar' ? $this->description_ar : $this->description_en;
+    }
+
+    public function getShortDescriptionAttribute(): string
+    {
+        $short = app()->getLocale() === 'ar' ? $this->short_description_ar : $this->short_description_en;
+        if (! empty($short)) {
+            return $short;
+        }
+
+        return Str::limit(strip_tags($this->description), 120);
     }
 
     public function getImageUrlAttribute(): string

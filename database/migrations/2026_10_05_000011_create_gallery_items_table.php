@@ -12,7 +12,10 @@ return new class extends Migration
             $table->id();
             $table->string('title_ar');
             $table->string('title_en');
+            $table->string('category')->nullable()->default('general')->index();
             $table->string('image')->nullable();
+            $table->string('before_image')->nullable();
+            $table->string('after_image')->nullable();
             $table->integer('sort_order')->default(0)->index();
             $table->boolean('is_active')->default(true)->index();
             $table->timestamps();

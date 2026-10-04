@@ -3,48 +3,64 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cms\StoreGalleryItemRequest;
+use App\Http\Requests\Cms\UpdateGalleryItemRequest;
 use App\Models\GalleryItem;
-use App\Services\FileUploadService;
+use App\Repositories\Contracts\GalleryItemRepositoryInterface;
+use App\Services\CmsService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
     public function __construct(
-        protected FileUploadService $fileUploadService
+        protected CmsService $cmsService,
+        protected GalleryItemRepositoryInterface $galleryItemRepo
     ) {}
 
     public function index(): View
     {
-        $items = GalleryItem::orderBy('sort_order')->paginate(12);
+        $items = $this->galleryItemRepo->paginate(12);
 
         return view('admin.gallery.index', compact('items'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreGalleryItemRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'title_ar' => ['required', 'string', 'max:255'],
-            'title_en' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
-            'sort_order' => ['nullable', 'integer'],
-            'is_active' => ['nullable', 'boolean'],
-        ]);
-
-        $validated['image'] = $this->fileUploadService->upload($request->file('image'), 'gallery');
-        $validated['is_active'] = $request->boolean('is_active', true);
-
-        GalleryItem::create($validated);
+        $this->cmsService->createGalleryItem(
+            $request->validated(),
+            $request->file('image'),
+            $request->file('before_image'),
+            $request->file('after_image')
+        );
 
         return redirect()->route('admin.gallery.index')->with('success', 'Gallery item uploaded successfully.');
     }
 
+    public function update(UpdateGalleryItemRequest $request, GalleryItem $gallery): RedirectResponse
+    {
+        $this->cmsService->updateGalleryItem(
+            $gallery->id,
+            $request->validated(),
+            $request->file('image'),
+            $request->file('before_image'),
+            $request->file('after_image')
+        );
+
+        return redirect()->route('admin.gallery.index')->with('success', 'Gallery item updated successfully.');
+    }
+
     public function destroy(GalleryItem $gallery): RedirectResponse
     {
-        $this->fileUploadService->delete($gallery->image);
-        $gallery->delete();
+        $this->cmsService->deleteGalleryItem($gallery->id);
 
         return redirect()->route('admin.gallery.index')->with('success', 'Gallery item deleted successfully.');
+    }
+
+    public function toggle(GalleryItem $gallery): RedirectResponse
+    {
+        $this->cmsService->toggleGalleryItem($gallery->id);
+
+        return back()->with('success', 'Gallery item status updated successfully.');
     }
 }
