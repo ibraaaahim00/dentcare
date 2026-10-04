@@ -12,6 +12,8 @@ class ClinicSettingSeeder extends Seeder
         $settings = [
             ['key' => 'clinic_name_ar', 'value' => 'DentCare مركز طب وجراحة الأسنان', 'type' => 'string'],
             ['key' => 'clinic_name_en', 'value' => 'DentCare Advanced Dental Center', 'type' => 'string'],
+            ['key' => 'clinic_tagline_ar', 'value' => 'عيادة طب وتجميل الأسنان', 'type' => 'string'],
+            ['key' => 'clinic_tagline_en', 'value' => 'Dental & Aesthetic Clinic', 'type' => 'string'],
             ['key' => 'email', 'value' => 'contact@dentcare.com', 'type' => 'string'],
             ['key' => 'phone', 'value' => '+966 11 456 7890', 'type' => 'string'],
             ['key' => 'emergency_phone', 'value' => '+966 50 123 4567', 'type' => 'string'],

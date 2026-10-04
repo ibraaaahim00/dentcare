@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\ClinicSetting;
+use App\Models\WorkingHour;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -33,8 +34,16 @@ class AppServiceProvider extends ServiceProvider
                     });
                     $view->with('clinicSettings', $settings);
                 }
+
+                if (Schema::hasTable('working_hours')) {
+                    $workingHours = Cache::remember('clinic_working_hours_list', 3600, function () {
+                        return WorkingHour::orderBy('day_of_week')->get();
+                    });
+                    $view->with('footerWorkingHours', $workingHours);
+                }
             } catch (\Throwable $e) {
                 $view->with('clinicSettings', []);
+                $view->with('footerWorkingHours', collect());
             }
         });
     }

@@ -9,6 +9,7 @@ use App\Models\AppointmentSetting;
 use App\Models\ClinicSetting;
 use App\Models\WorkingHour;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class SettingController extends Controller
@@ -28,6 +29,8 @@ class SettingController extends Controller
 
         ClinicSetting::set('clinic_name_ar', $validated['clinic_name_ar']);
         ClinicSetting::set('clinic_name_en', $validated['clinic_name_en']);
+        ClinicSetting::set('clinic_tagline_ar', $validated['clinic_tagline_ar'] ?? '');
+        ClinicSetting::set('clinic_tagline_en', $validated['clinic_tagline_en'] ?? '');
         ClinicSetting::set('email', $validated['email']);
         ClinicSetting::set('phone', $validated['phone']);
         ClinicSetting::set('emergency_phone', $validated['emergency_phone'] ?? '');
@@ -80,6 +83,8 @@ class SettingController extends Controller
                 ]
             );
         }
+
+        Cache::forget('clinic_working_hours_list');
 
         return redirect()->route('admin.settings.index')->with('success', 'Working hours updated successfully.');
     }

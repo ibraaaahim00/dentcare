@@ -27,7 +27,7 @@
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-slate-400 uppercase">{{ __('app.address') }}</span>
-                            <span class="font-semibold text-navy-900">{{ clinic_setting(app()->getLocale() === 'ar' ? 'address_ar' : 'address_en', 'Riyadh, Saudi Arabia') }}</span>
+                            <span class="font-semibold text-navy-900">{{ clinic_setting(app()->getLocale() === 'ar' ? 'address_ar' : 'address_en') }}</span>
                         </div>
                     </div>
 
@@ -37,8 +37,10 @@
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-slate-400 uppercase">{{ __('app.phone') }}</span>
-                            @php $phone = clinic_setting('phone', '+966 11 234 5678'); @endphp
-                            <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="font-semibold text-navy-900 hover:text-medical-600 transition" dir="ltr">{{ $phone }}</a>
+                            @php $phone = clinic_setting('phone'); @endphp
+                            @if($phone)
+                                <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="font-semibold text-navy-900 hover:text-medical-600 transition" dir="ltr">{{ $phone }}</a>
+                            @endif
                         </div>
                     </div>
 
@@ -48,9 +50,10 @@
                         </div>
                         <div>
                             <span class="block text-xs font-bold text-slate-400 uppercase">{{ __('app.email') }}</span>
-                            @php $email = clinic_setting('email', 'info@dentcare.com'); @endphp
-                            <a href="mailto:{{ $email }}" class="font-semibold text-navy-900 hover:text-medical-600 transition">{{ $email }}</a>
-                        </div>
+                            @php $email = clinic_setting('email'); @endphp
+                            @if($email)
+                                <a href="mailto:{{ $email }}" class="font-semibold text-navy-900 hover:text-medical-600 transition">{{ $email }}</a>
+                            @endif
                     </div>
                 </div>
 

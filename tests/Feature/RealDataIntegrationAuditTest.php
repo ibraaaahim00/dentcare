@@ -764,10 +764,12 @@ test('15. Reviews / Testimonials: Patient submits -> Starts Pending -> Admin App
     $homeAfterRejection->assertDontSee('REVIEW_SUPER_SATISFIED_PATIENT_TEST');
 });
 
-test('16. Clinic Settings: Update Clinic Name, Phone, WhatsApp, Email, Address, Socials, Footer, Copyright, Topbar, SEO -> Propagates everywhere', function () {
+test('16. Clinic Settings: Update Clinic Name, Tagline, Phone, WhatsApp, Email, Address, Socials, Footer, Copyright, Topbar, SEO, Working Hours -> Propagates everywhere', function () {
     $response = $this->actingAs($this->admin)->post(route('admin.settings.update-clinic'), [
         'clinic_name_ar' => 'مجمع النخبة الطبي التخصصي',
         'clinic_name_en' => 'ELITE_CLINIC_NAME_TEST',
+        'clinic_tagline_ar' => 'نخبة طب وتجميل الأسنان التجريبي',
+        'clinic_tagline_en' => 'ELITE_TAGLINE_TEST_ESTHETICS',
         'email' => 'contact@elite-clinic-test.com',
         'phone' => '+966 11 888 7777',
         'whatsapp' => '+966 50 888 7777',
@@ -790,12 +792,22 @@ test('16. Clinic Settings: Update Clinic Name, Phone, WhatsApp, Email, Address, 
     ]);
     $response->assertRedirect(route('admin.settings.index'));
 
+    // Update working hours via admin
+    $hoursResponse = $this->actingAs($this->admin)->post(route('admin.settings.update-working-hours'), [
+        'hours' => [
+            0 => ['day_of_week' => 0, 'start_time' => '07:30', 'end_time' => '21:30', 'is_closed' => false],
+            5 => ['day_of_week' => 5, 'start_time' => '09:00', 'end_time' => '17:00', 'is_closed' => true],
+        ],
+    ]);
+    $hoursResponse->assertRedirect(route('admin.settings.index'));
+
     // 1. Homepage & Layout Checks
     $home = $this->get(route('home'));
     $home->assertStatus(200);
 
     // Navbar & Header
     $home->assertSee('ELITE_CLINIC_NAME_TEST');
+    $home->assertSee('ELITE_TAGLINE_TEST_ESTHETICS');
     $home->assertSee('+966 11 888 7777');
     $home->assertSee('ELITE_TOPBAR_ANNOUNCEMENT_TEST');
     $home->assertSee('https://wa.me/966508887777');
@@ -807,11 +819,14 @@ test('16. Clinic Settings: Update Clinic Name, Phone, WhatsApp, Email, Address, 
     $home->assertSee('https://youtube.com/@elite-test');
     $home->assertSee('https://x.com/elite-test');
 
-    // Footer Text & Copyright & Address
+    // Footer Text & Copyright & Address & Dynamic Working Hours
     $home->assertSee('ELITE_FOOTER_CUSTOM_TEXT_TEST');
     $home->assertSee('ELITE_COPYRIGHT_2026_TEST');
     $home->assertSee('ELITE_ADDRESS_TEST_RIYADH');
     $home->assertSee('contact@elite-clinic-test.com');
+    $home->assertSee('07:30 AM');
+    $home->assertSee('09:30 PM');
+    $home->assertSee('Closed');
 
     // SEO Meta description
     $home->assertSee('ELITE_SEO_META_DESCRIPTION_TEST');

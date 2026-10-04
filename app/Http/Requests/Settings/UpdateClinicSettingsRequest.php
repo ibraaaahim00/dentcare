@@ -16,6 +16,8 @@ class UpdateClinicSettingsRequest extends FormRequest
         return [
             'clinic_name_ar' => ['required', 'string', 'max:255'],
             'clinic_name_en' => ['required', 'string', 'max:255'],
+            'clinic_tagline_ar' => ['nullable', 'string', 'max:255'],
+            'clinic_tagline_en' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:50'],
             'emergency_phone' => ['nullable', 'string', 'max:50'],

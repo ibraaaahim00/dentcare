@@ -36,37 +36,47 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'اسم العيادة (بالعربية)' : 'Clinic Name (Arabic)' }} *</label>
-                        <input type="text" name="clinic_name_ar" value="{{ old('clinic_name_ar', $settings['clinic_name_ar'] ?? 'DentCare مركز طب الأسنان') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                        <input type="text" name="clinic_name_ar" value="{{ old('clinic_name_ar', $settings['clinic_name_ar'] ?? '') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'اسم العيادة (بالإنجليزية)' : 'Clinic Name (English)' }} *</label>
-                        <input type="text" name="clinic_name_en" value="{{ old('clinic_name_en', $settings['clinic_name_en'] ?? 'DentCare Dental Clinic') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                        <input type="text" name="clinic_name_en" value="{{ old('clinic_name_en', $settings['clinic_name_en'] ?? '') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'الوصف التعريفي للعيادة (بالعربية)' : 'Clinic Tagline (Arabic)' }}</label>
+                        <input type="text" name="clinic_tagline_ar" value="{{ old('clinic_tagline_ar', $settings['clinic_tagline_ar'] ?? '') }}" placeholder="{{ app()->getLocale() === 'ar' ? 'أدخل الشعار أو الوصف التعريفي للعيادة' : 'Clinic tagline (Arabic)' }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'الوصف التعريفي للعيادة (بالإنجليزية)' : 'Clinic Tagline (English)' }}</label>
+                        <input type="text" name="clinic_tagline_en" value="{{ old('clinic_tagline_en', $settings['clinic_tagline_en'] ?? '') }}" placeholder="{{ app()->getLocale() === 'ar' ? 'أدخل الشعار أو الوصف التعريفي بالإنجليزية' : 'Clinic tagline (English)' }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'البريد الإلكتروني للعيادة' : 'Clinic Email' }} *</label>
-                        <input type="email" name="email" value="{{ old('email', $settings['email'] ?? 'contact@dentcare.com') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                        <input type="email" name="email" value="{{ old('email', $settings['email'] ?? '') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رقم الهاتف الرئيسي' : 'Primary Phone' }} *</label>
-                        <input type="text" name="phone" value="{{ old('phone', $settings['phone'] ?? '+966 11 234 5678') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                        <input type="text" name="phone" value="{{ old('phone', $settings['phone'] ?? '') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'رقم طوارئ الأسنان' : 'Emergency Dental Phone' }}</label>
-                        <input type="text" name="emergency_phone" value="{{ old('emergency_phone', $settings['emergency_phone'] ?? '+966 50 123 4567') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                        <input type="text" name="emergency_phone" value="{{ old('emergency_phone', $settings['emergency_phone'] ?? '') }}" class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'العنوان (بالعربية)' : 'Address (Arabic)' }} *</label>
-                        <input type="text" name="address_ar" value="{{ old('address_ar', $settings['address_ar'] ?? 'الرياض، طريق الملك فهد') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                        <input type="text" name="address_ar" value="{{ old('address_ar', $settings['address_ar'] ?? '') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
                     </div>
 
                     <div class="md:col-span-2">
                         <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'العنوان (بالإنجليزية)' : 'Address (English)' }} *</label>
-                        <input type="text" name="address_en" value="{{ old('address_en', $settings['address_en'] ?? 'King Fahd Road, Riyadh, Saudi Arabia') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                        <input type="text" name="address_en" value="{{ old('address_en', $settings['address_en'] ?? '') }}" required class="w-full text-sm rounded-xl border border-slate-200 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
                     </div>
                 </div>
             </div>
