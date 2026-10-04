@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\ContactMessageStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ContactMessage extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'subject',
+        'message',
+        'status',
+        'read_at',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'status' => ContactMessageStatus::class,
+            'read_at' => 'datetime',
+        ];
+    }
+}
