@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@dentcare.com'],
             [
-                'name' => 'Dr. Tareq Al-Husseini (Admin)',
-                'phone' => '+966500000001',
+                'name' => 'Dr. ebrahime alaa (Admin)',
+                'phone' => '+201500052085',
                 'password' => Hash::make('password'),
                 'role' => UserRole::Admin,
                 'gender' => Gender::Male,

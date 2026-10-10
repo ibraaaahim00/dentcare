@@ -14,6 +14,7 @@ class UpdateClinicSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'admin_name' => ['nullable', 'string', 'max:255'],
             'clinic_name_ar' => ['required', 'string', 'max:255'],
             'clinic_name_en' => ['required', 'string', 'max:255'],
             'clinic_tagline_ar' => ['nullable', 'string', 'max:255'],

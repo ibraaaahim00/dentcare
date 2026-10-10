@@ -26,6 +26,12 @@
         <form action="{{ route('admin.settings.update-clinic') }}" method="POST" class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 lg:p-8 space-y-8">
             @csrf
 
+            <div class="rounded-2xl border border-medical-100 bg-medical-50/50 p-5">
+                <label class="block text-xs font-bold text-slate-700 mb-1.5">{{ app()->getLocale() === 'ar' ? 'اسم المدير الظاهر في لوحة التحكم' : 'Admin Display Name' }}</label>
+                <input type="text" name="admin_name" value="{{ old('admin_name', auth()->user()->name) }}" required class="w-full text-sm rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                <p class="text-[10px] text-slate-400 mt-1.5">{{ app()->getLocale() === 'ar' ? 'يمكنك كتابة أي اسم وسيظهر في رسالة الترحيب والملف الجانبي.' : 'Choose any name to show in the welcome banner and admin sidebar.' }}</p>
+            </div>
+
             <!-- Clinic General Information -->
             <div>
                 <h2 class="text-sm font-bold text-navy-900 uppercase tracking-wider pb-3 border-b border-slate-100 mb-5 flex items-center gap-2">

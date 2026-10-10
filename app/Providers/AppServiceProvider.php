@@ -36,9 +36,9 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 if (Schema::hasTable('working_hours')) {
-                    $workingHours = Cache::remember('clinic_working_hours_list', 3600, function () {
-                        return WorkingHour::orderBy('day_of_week')->get();
-                    });
+                    $workingHours = WorkingHour::query()
+                        ->orderBy('day_of_week')
+                        ->get();
                     $view->with('footerWorkingHours', $workingHours);
                 }
             } catch (\Throwable $e) {

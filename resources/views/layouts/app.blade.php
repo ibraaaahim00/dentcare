@@ -295,7 +295,7 @@
                 <div>
                     <h3 class="text-white font-bold text-base mb-4">{{ __('app.working_hours') }}</h3>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        @forelse($footerWorkingHours ?? [] as $wh)
+                        @forelse(collect($footerWorkingHours ?? [])->filter(fn ($wh): bool => $wh instanceof \App\Models\WorkingHour) as $wh)
                             <li class="flex justify-between items-center py-1 border-b border-navy-900 text-xs">
                                 <span>{{ $wh->localized_day_name }}</span>
                                 @if($wh->is_closed)
